@@ -1,0 +1,6 @@
+{
+  "name": "AgriCommand AI",
+  "description": "Human-AI Collaborative Agriculture Intelligence Platform powered by multi-agent workflows and Switch collaboration infrastructure.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "agricommand-ai-supabase-suite",
+    "name": "AgriCommand AI – Supabase & Switch API Suite",
+    "description": "Comprehensive Postman test collection for AgriCommand AI backend covering Supabase endpoints, Gemini Multi-Agent Runner, Switch rooms, and approvals.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "System Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        }
+      }
+    },
+    {
+      "name": "Supabase Connection Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/supabase/status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "supabase", "status"]
+        }
+      }
+    },
+    {
+      "name": "List Farmers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/farmers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "farmers"]
+        }
+      }
+    },
+    {
+      "name": "Register Farmer",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Ravi Kumar\",\n  \"phone\": \"+91 98421 87654\",\n  \"village\": \"Thalaivasal\",\n  \"district\": \"Salem\",\n  \"state\": \"Tamil Nadu\",\n  \"landAreaAcres\": 2.0,\n  \"soilType\": \"Red Soil\",\n  \"waterAvailability\": \"Limited\",\n  \"irrigationSource\": \"Borewell (1.5 hr daily)\",\n  \"previousCrop\": \"Groundnut\",\n  \"currentSeason\": \"Summer 2026\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/farmers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "farmers"]
+        }
+      }
+    },
+    {
+      "name": "Submit Problem Report",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"farmerId\": \"farmer-ravi-kumar\",\n  \"farmerName\": \"Ravi Kumar\",\n  \"village\": \"Thalaivasal\",\n  \"district\": \"Salem\",\n  \"landAreaAcres\": 2.0,\n  \"soilType\": \"Red Soil\",\n  \"waterAvailability\": \"Limited\",\n  \"previousCrop\": \"Groundnut\",\n  \"currentSeason\": \"Summer 2026\",\n  \"category\": \"Crop selection\",\n  \"problemDescription\": \"Water table dropped. Need low-water high-return alternative to groundnut for red soil.\",\n  \"priority\": \"High\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/reports",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "reports"]
+        }
+      }
+    },
+    {
+      "name": "Run Multi-Agent Workflow (Gemini)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reportId\": \"REP-2026-SLM-001\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/workflow/run",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "workflow", "run"]
+        }
+      }
+    },
+    {
+      "name": "List Collaboration Rooms",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/rooms",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rooms"]
+        }
+      }
+    },
+    {
+      "name": "Post Message in Room",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"senderName\": \"Dr. Sundaram (Agri Coordinator)\",\n  \"senderType\": \"human\",\n  \"content\": \"Confirming Paiyur 2 Ragi seed availability at Salem Agriculture Depot.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/rooms/room-rep-001-salem/messages",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "rooms", "room-rep-001-salem", "messages"]
+        }
+      }
+    },
+    {
+      "name": "Submit Action Plan Approval",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"decision\": \"Approved\",\n  \"comments\": \"Sanctioned for immediate seedling nursery preparation in Thalaivasal.\",\n  \"reviewerName\": \"Dr. Sundaram (Agri Coordinator)\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/approvals/plan-rep-001",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "approvals", "plan-rep-001"]
+        }
+      }
+    },
+    {
+      "name": "Download Action Plan from Storage",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/storage/agricultural-reports/plan-rep-001.pdf",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "storage", "agricultural-reports", "plan-rep-001.pdf"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: agricommand_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: agri_user
+      POSTGRES_PASSWORD: agri_pass
+      POSTGRES_DB: agricommand_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend_flask:
+    build:
+      context: ./backend_flask
+      dockerfile: Dockerfile
+    container_name: agricommand_flask
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://agri_user:agri_pass@db:5432/agricommand_db
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      SWITCH_CONSOLE_URL: https://console.switchagents.ai
+      SWITCH_MODE: sandbox
+    depends_on:
+      - db
+
+  frontend_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agricommand_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    depends_on:
+      - backend_flask
+
+volumes:
+  pgdata:
